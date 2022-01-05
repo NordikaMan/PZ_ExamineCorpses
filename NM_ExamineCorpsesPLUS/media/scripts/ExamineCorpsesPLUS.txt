@@ -1,0 +1,84 @@
+module ExamineCorpse
+{
+    imports
+    {
+        Base
+    }
+
+	item nmMedicalMagazine1
+	{
+		NumberOfPages	=	32,
+		Weight	=	0.1,
+		Type	=	Literature,
+		DisplayName = Examining Corpses: For Dummies,
+		TeachedRecipes = 	Create Medical Studies Journal;Examine Corpse,
+		Icon 	= 	Magazine,
+		StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+		ReplaceOnUse = nmMedicalMagazine1,
+	}
+
+    item nmMedicalMagazine2
+	{
+		NumberOfPages	=	64,
+		Weight	=	0.1,
+		Type	=	Literature,
+		DisplayName = Examining Corpses: The Corpse Inquirer,
+		TeachedRecipes = 	Create Medical Studies Journal;Examine Corpse Surgically,
+		Icon 	= 	Magazine,
+		StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+		ReplaceOnUse = nmMedicalMagazine2,
+	}
+
+    item nmMedicalStudiesJournal
+	{
+		Weight	=	0.3,
+		Type	=	Literature,
+		DisplayName	=   Medical Studies Journal,
+		Icon	=	Book,
+		StaticModel = Book,
+        WorldStaticModel = BookRedPink_Ground,
+		ReplaceOnUse = nmMedicalStudiesJournal,
+	}		
+
+	recipe Create Medical Studies Journal
+    {
+		destroy Journal,
+        keep Pen/Pencil/RedPen/BluePen,
+        CanBeDoneFromFloor:true,
+        Result:nmMedicalStudiesJournal,
+        Time:100.0,
+        Category:Health,
+		NeedToBeLearn:true,
+    }
+	
+	recipe Examine Corpse
+	{
+		destroy CorpseMale/CorpseFemale,
+		keep nmMedicalStudiesJournal,
+		keep HuntingKnife/KitchenKnife/Scalpel/BreadKnife/ButterKnife/LetterOpener/MeatCleaver/Scissors/FlintKnife,
+		Result:RippedSheetsDirty=1,
+    	Category:Health,
+		CanBeDoneFromFloor:true,
+		OnCreate:ExamineCorpse,
+    	Time:2500.0,
+		NeedToBeLearn:true,
+	}
+
+	recipe Examine Corpse Surgically
+	{
+		destroy CorpseMale/CorpseFemale,
+		keep Gloves_Surgical,
+		keep Hat_SurgicalMask_Blue/Hat_SurgicalMask_Green,
+		keep nmMedicalStudiesJournal,
+		keep Scalpel,
+		Result:RippedSheetsDirty=1,
+    	Category:Health,
+    	SkillRequired:Doctor=4,
+		CanBeDoneFromFloor:true,
+		OnCreate:ExamineCorpseSurgically,
+    	Time:4000.0,
+		NeedToBeLearn:true,
+	}
+}
